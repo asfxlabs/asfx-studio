@@ -1,110 +1,133 @@
-ASFX Studio
+# ASFX Studio
 
-AI-powered desktop video editing toolkit built with Electron, FFmpeg, and Faster-Whisper.
+AI-powered desktop toolkit for automating video editing workflows.
 
-ASFX Studio helps creators automatically remove silent sections, generate subtitles, export Premiere Pro XML timelines, and streamline long-form editing workflows using local AI processing.
+ASFX Studio helps creators remove silent sections, generate subtitles, export Premiere Pro timelines, and speed up post-production using fully local AI processing.
 
-No cloud APIs. No subscriptions. Everything runs locally on your machine. Because apparently software can still do that.
+Built with Electron, FFmpeg, Python, and Faster-Whisper.
 
-Features
-AI Subtitle Generation
-Offline Whisper transcription
-UTF-8 subtitle support
-SRT export
-Improved punctuation and sentence detection
-Multilingual support
-Premiere Pro XML Export
-Automatically removes silent sections
-Generates editable Premiere Pro XML timelines
-Keeps speaking segments only
-Speeds up lecture and tutorial editing workflows
-Word Timing Export
-Word-level timestamp generation
-Useful for animated captions and motion graphics
-Creator-focused subtitle timing pipeline
-Local AI Processing
-Runs fully offline
-Uses Faster-Whisper
-No API keys required
-No cloud dependency
-Desktop Application
-Built with Electron
-Modern UI
-Native file importing
-Integrated debug console
-Real-time processing feedback
-Tech Stack
-Electron
-Node.js
-FFmpeg
-Python
-Faster-Whisper
-Auto-Editor
-Screenshots
-Main Dashboard
-<img width="100%" src="screenshots/dashboard.png" />
-Subtitle Generation
-<img width="100%" src="screenshots/subtitles.png" />
-Premiere XML Export
-<img width="100%" src="screenshots/xml-export.png" />
-Debug Console
-<img width="100%" src="screenshots/debug-console.png" />
-Installation
-Clone Repository
+---
+
+## Features
+
+### AI Subtitle Generation
+
+* Offline Whisper transcription
+* SRT subtitle export
+* UTF-8 multilingual support
+* Improved punctuation and timing
+
+### Premiere Pro XML Export
+
+* Automatically removes silent sections
+* Exports editable Premiere Pro XML timelines
+* Optimized for lectures, tutorials, and talking-head videos
+
+### Word Timing Export
+
+* Word-level timestamp generation
+* Useful for animated captions and motion graphics
+
+### Local AI Processing
+
+* Fully offline workflow
+* No cloud APIs
+* No subscriptions
+* Local Whisper inference
+
+### Desktop Application
+
+* Built with Electron
+* Modern creator-focused interface
+* Integrated debug console
+* Real-time processing feedback
+
+---
+
+## Tech Stack
+
+* Electron
+* Node.js
+* Python
+* FFmpeg
+* Faster-Whisper
+* Auto-Editor
+
+---
+
+## Installation
+
+```bash
 git clone https://github.com/asfxlabs/asfx-studio.git
 cd asfx-studio
-Install Dependencies
 npm install
-Run Application
 npm start
-Build Desktop App
+```
+
+---
+
+## Build
+
+```bash
 npm run build
-Required Runtime Components
+```
 
-The application depends on:
+---
 
-Embedded Python
-FFmpeg
-Faster-Whisper
-Whisper models
+## Project Structure
 
-These are bundled separately during production builds.
+```bash
+asfx-studio/
+├── scripts/
+├── renderer/
+├── assets/
+├── main.js
+├── package.json
+└── README.md
+```
 
-Current Capabilities
-Subtitle generation
-Premiere Pro XML export
-Silence detection
-Word timing extraction
-Offline AI transcription
-Real-time debug console
-Roadmap
-Multi-clip merging
-AI chapter generation
-Speaker detection
-Motion caption templates
-GPU acceleration
-MacOS support
-Timeline preview system
-Why ASFX Studio Exists
+---
 
-Editing long educational recordings and tutorials manually takes an absurd amount of time.
+## Current Capabilities
 
-Removing silent sections, generating subtitles, and preparing timelines for Premiere Pro became repetitive and exhausting during real production work.
+* AI subtitle generation
+* Premiere Pro XML export
+* Silence detection
+* Word timing extraction
+* Offline AI transcription
+* Local video processing
 
-ASFX Studio was built to automate those workflows and reduce editing time using local AI-powered tools.
+---
 
-License
+## Roadmap
+
+* Multi-clip merging
+* AI chapter generation
+* Speaker detection
+* Motion caption templates
+* GPU acceleration
+* macOS support
+
+---
+
+## Why I Built This
+
+Editing long educational recordings manually became repetitive and time-consuming.
+
+Removing pauses, generating subtitles, and preparing timelines for Premiere Pro consumed too much production time during real editing work.
+
+ASFX Studio was built to automate those workflows locally using AI-powered tools.
+
+---
+
+## License
 
 MIT License
 
-Author
+---
+
+## Author
 
 ASFX Labs
 
 Full Stack Development • Multimedia Tools • AI Workflow Automation
-
-GitHub: https://github.com/asfxlabs
-
-Disclaimer
-
-This project is still under active development.
