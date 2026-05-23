@@ -1,0 +1,2379 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>ASFX Studio</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+
+      background:
+        radial-gradient(circle at top, #1c1c1c 0%, #0b0b0b 70%);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        sans-serif;
+
+      color: white;
+
+      min-height: 100vh;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      overflow-y: auto;
+    }
+
+    .app {
+
+      width: 920px;
+      height: auto;
+
+min-height: 720px;
+
+      background: rgba(20,20,20,0.78);
+
+      backdrop-filter: blur(24px);
+
+      border: 1px solid rgba(255,255,255,0.06);
+
+      border-radius: 34px;
+
+      padding: 42px;
+
+      display: flex;
+      flex-direction: column;
+
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.55);
+
+      animation: fadeIn 0.8s ease;
+
+      position: relative;
+z-index: 2;
+    }
+
+    @keyframes fadeIn {
+
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0px) scale(1);
+      }
+    }
+
+    .top {
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 50px;
+    }
+
+    .logo {
+
+      font-size: 34px;
+      font-weight: 700;
+
+      letter-spacing: -1.5px;
+    }
+
+    .logo span {
+      color: #00ff99;
+    }
+
+    .status {
+
+      padding: 10px 18px;
+
+      border-radius: 999px;
+
+      background: rgba(255,255,255,0.04);
+
+      border: 1px solid rgba(255,255,255,0.05);
+
+      color: #cfcfcf;
+
+      font-size: 13px;
+    }
+
+    .center {
+
+      flex: 1;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .importBtn {
+
+      background:
+        linear-gradient(
+          135deg,
+          #ffffff,
+          #d9d9d9
+        );
+
+      color: black;
+
+      border: none;
+
+      border-radius: 18px;
+
+      padding: 18px 34px;
+
+      font-size: 15px;
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.25s cubic-bezier(0.22,1,0.36,1),
+        box-shadow 0.25s ease,
+        opacity 0.2s ease;
+    }
+
+    .importBtn:hover {
+
+      transform:
+        translateY(-3px)
+        scale(1.03);
+
+      box-shadow:
+        0 18px 40px rgba(255,255,255,0.08);
+    }
+
+    #videoPath {
+
+      margin-top: 18px;
+
+      color: #7f7f7f;
+
+      font-size: 13px;
+
+      max-width: 600px;
+
+      text-align: center;
+
+      word-break: break-word;
+    }
+   .importCard {
+
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 34px;
+
+  padding: 28px;
+
+  border-radius: 34px;
+
+  background:
+    rgba(255,255,255,0.02);
+
+  border:
+    1px solid rgba(255,255,255,0.05);
+
+  backdrop-filter: blur(20px);
+
+  transition:
+    all 0.35s ease;
+}
+
+.importCard:hover {
+
+  border-color:
+    rgba(0,255,153,0.12);
+
+  background:
+    rgba(255,255,255,0.03);
+}
+
+.videoPreview {
+
+  width: 300px;
+  height: 170px;
+
+  border-radius: 22px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  flex-shrink: 0;
+}
+
+.videoPreview img {
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.videoDuration {
+
+  position: absolute;
+
+  right: 14px;
+  bottom: 14px;
+
+  background:
+    rgba(0,0,0,0.55);
+
+  backdrop-filter: blur(12px);
+
+  padding: 6px 10px;
+
+  border-radius: 12px;
+
+  font-size: 12px;
+
+  font-weight: 500;
+}
+
+.videoInfo {
+
+  flex: 1;
+
+  min-width: 0;
+
+  max-width: calc(100% - 180px);
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  justify-content: center;
+
+  gap: 0;
+}
+
+.videoTitle {
+
+  width: 100%;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+  font-size: 24px;
+
+  font-weight: 700;
+
+  letter-spacing: -1px;
+
+  line-height: 1;
+
+  margin-bottom: 14px;
+}
+
+.videoMeta {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 22px;
+
+  margin-bottom: 16px;
+
+  color: #8a8a8a;
+
+  font-size: 13px;
+
+  flex-wrap: nowrap;
+
+  white-space: nowrap;
+}
+
+.videoStatus {
+
+  color: #00ff99;
+
+  font-size: 14px;
+
+  font-weight: 500;
+}
+
+.changeBtn {
+
+  flex-shrink: 0;
+
+  align-self: flex-start;
+
+  margin-top: 12px;
+
+  width: 150px;
+
+  height: 72px;
+
+  border-radius: 24px;
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border:
+    1px solid rgba(255,255,255,0.05);
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    all 0.25s ease;
+}
+
+.changeBtn:hover {
+
+  transform:
+    translateY(-2px);
+
+  background:
+    rgba(255,255,255,0.07);
+}
+
+    .actions {
+
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 14px;
+
+  margin-top: 28px;
+}
+
+    .actionBtn {
+
+  background:
+    rgba(255,255,255,0.03);
+
+  border:
+    1px solid rgba(255,255,255,0.05);
+
+  border-radius: 22px;
+
+  padding: 20px;
+
+  height: 90px;
+
+  color: white;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.35s cubic-bezier(0.22,1,0.36,1),
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+
+  position: relative;
+
+  overflow: hidden;
+}
+    .actionBtn::before {
+
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255,255,255,0.05),
+          transparent
+        );
+
+      opacity: 0;
+
+      transition: opacity 0.3s ease;
+    }
+
+    .actionBtn:hover::before {
+      opacity: 1;
+    }
+
+    .actionBtn:hover {
+
+      transform:
+        translateY(-6px)
+        scale(1.015);
+
+      background:
+        rgba(255,255,255,0.05);
+
+      border-color:
+        rgba(255,255,255,0.08);
+
+      box-shadow:
+        0 25px 50px rgba(0,0,0,0.35);
+    }
+
+    .actionTitle {
+
+      font-size: 17px;
+      font-weight: 600;
+
+      letter-spacing: -0.3px;
+
+      margin-bottom: 8px;
+    }
+
+    .actionDesc {
+
+      color: #8b8b8b;
+
+      font-size: 13px;
+
+      line-height: 1.5;
+    }
+
+   
+
+
+#consoleBox {
+
+  flex: 1;
+
+  background:
+    rgba(255,255,255,0.03);
+
+  border:
+    1px solid rgba(255,255,255,0.05);
+
+  border-radius: 20px;
+
+  padding: 20px;
+
+  overflow-y: auto;
+
+  font-family:
+    Consolas,
+    monospace;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  color: #d4d4d4;
+
+  white-space: pre-wrap;
+}
+
+    #statusText {
+
+  margin-top: 16px;
+
+  color: #7f7f7f;
+
+  font-size: 13px;
+
+  text-align: center;
+
+  transition: all 0.3s ease;
+}
+
+    #consoleBox {
+
+  width: 100%;
+
+  height: 72px;
+
+  background:
+    rgba(255,255,255,0.025);
+
+  border:
+    1px solid rgba(255,255,255,0.05);
+
+  border-radius: 18px;
+
+  padding: 18px;
+
+  overflow-y: auto;
+
+  font-family:
+    Consolas,
+    monospace;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+  color: #d4d4d4;
+
+  white-space: pre-wrap;
+
+  transition:
+    all 0.3s ease;
+
+  backdrop-filter: blur(12px);
+} 
+
+.consoleContainer {
+
+  width: 100%;
+
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.consoleHeader {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.consoleTitle {
+
+  font-size: 12px;
+
+  color: #7f7f7f;
+
+  font-weight: 500;
+
+  letter-spacing: 0.5px;
+}
+
+    .dropZone {
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px;
+
+  border-radius: 28px;
+
+  border:
+    2px dashed rgba(255,255,255,0.06);
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.dropZone.dragover {
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border-color:
+    rgba(0,255,153,0.25);
+
+  transform: scale(1.01);
+}
+.topRight {
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.consoleToggle {
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border:
+    1px solid rgba(255,255,255,0.05);
+
+  color: #d4d4d4;
+
+  border-radius: 999px;
+
+  padding: 10px 18px;
+
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition:
+    all 0.25s ease;
+}
+
+.consoleToggle:hover {
+
+  background:
+    rgba(255,255,255,0.08);
+
+  transform:
+    translateY(-2px);
+}
+.progressWrapper {
+
+  width: 100%;
+
+  margin-top: 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 14px;
+}
+
+.progressBar {
+
+  width: 100%;
+
+  height: 12px;
+
+  background:
+    rgba(255,255,255,0.03);
+
+  border:
+    1px solid rgba(255,255,255,0.04);
+
+  border-radius: 999px;
+
+  overflow: hidden;
+
+  position: relative;
+
+  backdrop-filter: blur(20px);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,0.03);
+}
+
+.progressFill {
+
+  width: 0%;
+
+  height: 100%;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ffffff 0%,
+      #d6d6d6 30%,
+      #00ff99 100%
+    );
+
+  transition:
+    width 0.45s cubic-bezier(0.22,1,0.36,1);
+
+  box-shadow:
+    0 0 30px rgba(0,255,153,0.22);
+}
+
+.progressPercent {
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  color: #8f8f8f;
+
+  letter-spacing: 0.6px;
+}
+
+.footerNote {
+
+  margin-top: 22px;
+
+  text-align: center;
+
+  font-size: 11px;
+
+  color: rgba(255,255,255,0.28);
+
+  letter-spacing: 0.4px;
+
+  user-select: none;
+
+  transition: opacity 0.25s ease;
+}
+
+.footerNote:hover {
+
+  opacity: 0.8;
+}
+.importContainer {
+
+  width: 100%;
+}
+
+.emptyImport {
+
+  width: 100%;
+
+  height: 240px;
+
+  border-radius: 30px;
+
+  border:
+    2px dashed rgba(255,255,255,0.06);
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 20px;
+
+  transition:
+    all 0.35s ease;
+}
+
+.emptyImport:hover {
+
+  border-color:
+    rgba(0,255,153,0.18);
+
+  background:
+    rgba(255,255,255,0.02);
+}
+
+.heroImportBtn {
+
+  padding: 20px 38px;
+
+  border-radius: 20px;
+
+  border: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #d9d9d9
+    );
+
+  color: black;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    all 0.3s ease;
+}
+
+.heroImportBtn:hover {
+
+  transform:
+    translateY(-3px)
+    scale(1.03);
+}
+
+.dragText {
+
+  color: #7f7f7f;
+
+  font-size: 14px;
+}
+
+.analyzingState {
+
+  width: 100%;
+
+  height: 240px;
+
+  display: none;
+
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 18px;
+}
+
+.analyzingLoader {
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  border:
+    3px solid rgba(255,255,255,0.08);
+
+  border-top:
+    3px solid #00ff99;
+
+  animation:
+    spin 1s linear infinite;
+}
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.analyzingTitle {
+
+  font-size: 22px;
+
+  font-weight: 700;
+}
+
+.analyzingSub {
+
+  color: #7f7f7f;
+
+  font-size: 14px;
+}
+
+.hidden {
+
+  display: none;
+}
+
+.videoPath {
+
+  width: 100%;
+
+  color: #666;
+
+  font-size: 12px;
+
+  line-height: 1.2;
+
+  margin-bottom: 18px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.videoPreview img {
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+
+  border-radius: 22px;
+}
+
+.metaItem {
+
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+}
+
+.metaIcon {
+
+  opacity: 0.55;
+
+  font-size: 12px;
+}
+#cursorGlow {
+
+  position: fixed;
+
+  width: 320px;
+  height: 320px;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0,255,170,0.16) 0%,
+      rgba(0,255,170,0.08) 25%,
+      rgba(0,255,170,0.03) 45%,
+      transparent 70%
+    );
+
+  filter: blur(35px);
+
+  transform:
+    translate(-50%, -50%);
+
+  z-index: 0;
+
+  transition:
+    transform 0.08s linear;
+
+  mix-blend-mode: screen;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </style>
+</head>
+
+<body>
+<div class="app">
+  <div class="top">
+
+  <div class="logo">
+    ASFX <span>Studio</span>
+  </div>
+
+  <div class="topRight">
+
+    <div class="status">
+      AI Editing Suite
+    </div>
+
+ 
+  </div>
+
+</div>
+
+    <div class="center">
+
+ 
+<div
+  class="importContainer"
+  id="importContainer"
+>
+
+  <!-- EMPTY STATE -->
+
+  <div
+    class="emptyImport"
+    id="emptyImport"
+  >
+
+    <button
+      id="importBtn"
+      class="heroImportBtn"
+    >
+      Import Video
+    </button>
+
+    <div class="dragText">
+      Drag & Drop video here
+    </div>
+
+  </div>
+
+  <!-- ANALYZING STATE -->
+
+  <div
+    class="analyzingState"
+    id="analyzingState"
+  >
+
+    <div class="analyzingLoader"></div>
+
+    <div class="analyzingTitle">
+      Analyzing video...
+    </div>
+
+    <div
+      class="analyzingSub"
+      id="analyzingSub"
+    >
+      Extracting metadata
+    </div>
+
+  </div>
+
+  <!-- IMPORTED STATE -->
+
+  <div
+    class="importCard hidden"
+    id="importCard"
+  >
+
+    <div class="videoPreview">
+
+      <img
+        id="previewImage"
+        src="https://placehold.co/600x400/111111/222222?text=ASFX"
+      />
+
+      <div
+        class="videoDuration"
+        id="videoDuration"
+      >
+        00:00
+      </div>
+
+    </div>
+
+    <div class="videoInfo">
+
+      <div
+        class="videoTitle"
+        id="videoTitle"
+      >
+        Video Name
+      </div>
+
+      <div
+        class="videoPath"
+        id="videoPath"
+      >
+        File path
+      </div>
+
+<div class="videoMeta">
+
+  <div class="metaItem">
+    <span class="metaIcon">📄</span>
+    <span id="videoFormat">MP4</span>
+  </div>
+
+  <div class="metaItem">
+    <span class="metaIcon">🖥</span>
+    <span id="videoResolution">1920×1080</span>
+  </div>
+
+  <div class="metaItem">
+    <span class="metaIcon">⏺</span>
+    <span id="videoFPS">24 FPS</span>
+  </div>
+
+  <div class="metaItem">
+    <span class="metaIcon">💾</span>
+    <span id="videoSize">0 GB</span>
+  </div>
+
+</div>
+
+      <div
+        class="videoStatus"
+        id="videoStatus"
+      >
+        Video imported successfully
+      </div>
+
+    </div>
+
+    <button
+      id="changeFileBtn"
+      class="changeBtn"
+    >
+      Change
+    </button>
+
+  </div>
+
+</div>
+
+
+
+<div id="statusText">
+    Import a video to begin
+  </div>
+
+
+
+<div class="progressWrapper">
+
+  <div class="progressBar">
+
+    <div
+      class="progressFill"
+      id="progressFill"
+    ></div>
+
+  </div>
+
+  <div
+    class="progressPercent"
+    id="progressPercent"
+  >
+    0%
+  </div>
+
+</div>
+
+<div
+  class="consoleContainer"
+  id="consoleContainer"
+>
+
+  <div class="consoleHeader">
+
+    <div class="consoleTitle">
+      Process Console
+    </div>
+
+    <button
+      id="consoleToggle"
+      class="consoleToggle"
+    >
+      Hide
+    </button>
+
+  </div>
+
+  <div id="consoleBox">
+    Waiting for process...
+  </div>
+
+</div>
+
+      <div class="actions">
+
+        <button id="cutBtn" class="actionBtn">
+
+          <div class="actionTitle">
+            Auto Cut
+          </div>
+
+          <div class="actionDesc">
+            Remove silence and dead space automatically.
+          </div>
+
+        </button>
+
+        <button id="premiereBtn" class="actionBtn">
+
+          <div class="actionTitle">
+            Premiere XML
+          </div>
+
+          <div class="actionDesc">
+            Export editable timeline cuts.
+          </div>
+
+        </button>
+
+        <button id="subtitleBtn" class="actionBtn">
+
+          <div class="actionTitle">
+            Subtitles
+          </div>
+
+          <div class="actionDesc">
+            Generate AI subtitles locally.
+          </div>
+
+        </button>
+
+        <button id="wordTimingBtn" class="actionBtn">
+
+          <div class="actionTitle">
+            Word Timing
+          </div>
+
+          <div class="actionDesc">
+            Create animation-ready timing data.
+          </div>
+
+        </button>
+
+      </div>
+
+<div class="footerNote">
+  © 2026 ASFX Labs · Created by Muhammed Asif · All rights reserved · asfxlabs.com
+</div>
+
+    </div>
+
+    
+
+  </div>
+
+  <div id="cursorGlow"></div>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+try {
+
+  const { dialog } = require("@electron/remote");
+  const { exec } = require("child_process");
+  const fs = require("fs");
+  const path = require("path");
+  const { ipcRenderer } = require("electron");
+  const electron =
+  require("electron");
+
+const basePath =
+  process.resourcesPath.includes("electron")
+    ? __dirname
+    : process.resourcesPath;
+
+
+
+const pythonPath =
+  path.join(
+    basePath,
+    "python",
+    "python.exe"
+  );
+
+const autoEditorPath =
+  path.join(
+    basePath,
+    "auto-editor",
+    "auto-editor.exe"
+  );
+
+const ffmpegPath =
+  path.join(
+    basePath,
+    "ffmpeg",
+    "ffmpeg.exe"
+  );
+
+const ffprobePath =
+  path.join(
+    basePath,
+    "ffmpeg",
+    "ffprobe.exe"
+  );
+
+  let selectedVideo = "";
+  let isImporting = false;
+
+
+  window.onerror = function(message, source, lineno, colno, error) {
+
+  const consoleBox =
+    document.getElementById("consoleBox");
+
+  if (consoleBox) {
+
+    consoleBox.innerText =
+      "ERROR:\\n\\n" +
+      message +
+      "\\n\\nLine: " + lineno;
+  }
+
+  console.error(error);
+};
+
+const progressFill =
+  document.getElementById("progressFill");
+
+const progressPercent =
+  document.getElementById("progressPercent");
+  function setProgress(value) {
+
+  progressFill.style.width =
+    value + "%";
+
+  progressPercent.innerText =
+    value + "%";
+}
+
+
+  const dropZone =
+    document.getElementById("importContainer");
+
+
+
+const consoleContainer =
+  document.getElementById("consoleContainer");
+
+const consoleToggle =
+  document.getElementById("consoleToggle");
+
+  const consoleBox =
+  document.getElementById("consoleBox");
+
+let consoleVisible = true;
+
+consoleToggle.addEventListener("click", () => {
+
+  consoleVisible = !consoleVisible;
+
+  if (consoleVisible) {
+
+    consoleBox.style.display =
+     "block";
+
+    consoleToggle.innerText =
+      "Hide";
+
+  } else {
+
+    consoleBox.style.display =
+  "none";
+
+    consoleToggle.innerText =
+      "Show";
+  }
+
+});
+
+async function loadVideoMetadata(videoPath) {
+
+  return new Promise((resolve, reject) => {
+
+    const ffprobeCommand =
+  `"${ffprobePath}" -v quiet ` +
+  `-print_format json ` +
+  `-show_format ` +
+  `-show_streams ` +
+  `"${videoPath}"`;
+
+ 
+
+    exec(ffprobeCommand, (error, stdout) => {
+
+      if (error) {
+
+        reject(error);
+        return;
+      }
+
+      const data =
+        JSON.parse(stdout);
+
+      const videoStream =
+        data.streams.find(
+          s => s.codec_type === "video"
+        );
+
+      const duration =
+        parseFloat(data.format.duration);
+
+      const size =
+        parseInt(data.format.size);
+
+      const fpsParts =
+        videoStream.r_frame_rate.split("/");
+
+      const fps =
+        (
+          parseInt(fpsParts[0]) /
+          parseInt(fpsParts[1])
+        ).toFixed(2);
+
+      resolve({
+
+        width:
+          videoStream.width,
+
+        height:
+          videoStream.height,
+
+        fps,
+
+        duration,
+
+        size
+      });
+
+    });
+
+  });
+
+}
+function formatDuration(seconds) {
+
+  const hrs =
+    Math.floor(seconds / 3600);
+
+  const mins =
+    Math.floor((seconds % 3600) / 60);
+
+  const secs =
+    Math.floor(seconds % 60);
+
+  return (
+    String(hrs).padStart(2, "0") +
+    ":" +
+    String(mins).padStart(2, "0") +
+    ":" +
+    String(secs).padStart(2, "0")
+  );
+}
+
+async function generateThumbnail(videoPath) {
+
+  return new Promise((resolve, reject) => {
+
+    const thumbnailPath =
+  path.join(
+    basePath,
+    "thumbnail.jpg"
+  );
+
+    const command =
+  `"${ffmpegPath}" -y ` +
+  `-ss 00:00:05 ` +
+  `-i "${videoPath}" ` +
+  `-frames:v 1 ` +
+  `"${thumbnailPath}"`;
+
+    exec(command, (error) => {
+
+      if (error) {
+
+        reject(error);
+        return;
+      }
+
+      resolve(thumbnailPath);
+
+    });
+
+  });
+
+}
+
+async function importVideo(videoPath) {
+
+  if (isImporting) return;
+
+  selectedVideo = videoPath;
+
+  isImporting = true;
+
+  document.getElementById("importCard")
+    .classList.add("hidden");
+
+  document.getElementById("analyzingState")
+    .style.display = "flex";
+
+  document.getElementById("emptyImport")
+    .style.display = "none";
+
+  document.getElementById("statusText").innerText =
+    "Analyzing video...";
+
+  document.getElementById("analyzingSub").innerText =
+    "Extracting metadata";
+
+  document.getElementById("previewImage").src = "";
+
+  setProgress(8);
+
+  setTimeout(() => {
+
+    document.getElementById("analyzingSub").innerText =
+      "Generating preview image";
+
+    setProgress(45);
+
+  }, 1200);
+
+  setTimeout(() => {
+
+    document.getElementById("analyzingSub").innerText =
+      "Collecting video information";
+
+    setProgress(70);
+
+  }, 2200);
+
+  setTimeout(async () => {
+
+    try {
+
+      const [meta, thumbnail] =
+        await Promise.all([
+
+          loadVideoMetadata(selectedVideo),
+
+          generateThumbnail(selectedVideo)
+
+        ]);
+
+      document.getElementById("analyzingState")
+        .style.display = "none";
+
+      document.getElementById("importCard")
+        .classList.remove("hidden");
+
+      const fileName =
+        path.basename(selectedVideo);
+
+      document.getElementById("videoTitle").innerText =
+        fileName;
+
+      document.getElementById("videoPath").innerText =
+        selectedVideo;
+
+      document.getElementById("videoResolution").innerText =
+        `${meta.width}×${meta.height}`;
+
+      document.getElementById("videoFPS").innerText =
+        `${meta.fps} FPS`
+          .replace(".00", "");
+
+      document.getElementById("videoDuration").innerText =
+        formatDuration(meta.duration);
+
+      document.getElementById("videoSize").innerText =
+        `${(meta.size / (1024 * 1024)).toFixed(1)} MB`;
+
+      document.getElementById("videoFormat").innerText =
+        path.extname(selectedVideo)
+          .replace(".", "")
+          .toUpperCase();
+
+      document.getElementById("previewImage").src =
+        thumbnail + "?t=" + Date.now();
+
+      setProgress(100);
+
+      isImporting = false;
+
+      setTimeout(() => {
+
+        setProgress(0);
+
+        document.getElementById("statusText").innerText =
+          "Select a process to continue";
+
+      }, 1200);
+
+    } catch (err) {
+
+      isImporting = false;
+
+      console.error(err);
+
+      document.getElementById("consoleBox").innerText =
+        err.message;
+    }
+
+  }, 3200);
+}
+
+// IMPORT BUTTON
+
+  document.getElementById("importBtn")
+  .addEventListener("click", async () => {
+
+    if (isImporting) return;
+
+    const result =
+      await dialog.showOpenDialog({
+
+        properties: ["openFile"],
+
+        filters: [
+          {
+            name: "Videos",
+            extensions: ["mp4", "mov", "mkv"]
+          }
+        ]
+      });
+
+    
+
+    if (!result.canceled) {
+
+      selectedVideo = result.filePaths[0];
+      isImporting = true;
+      document.getElementById("importCard")
+  .classList.add("hidden");
+
+document.getElementById("analyzingState")
+  .style.display = "flex";
+
+document.getElementById("emptyImport")
+  .style.display = "none";
+
+document.getElementById("statusText").innerText =
+  "Analyzing video...";
+
+document.getElementById("analyzingSub").innerText =
+  "Extracting metadata";
+
+document.getElementById("previewImage").src =
+  "";
+
+  document.getElementById("analyzingState").style.display =
+  "flex";
+
+setProgress(8);
+
+    
+
+      
+
+
+
+
+
+setProgress(15);
+
+      setTimeout(() => {
+
+  document.getElementById("analyzingSub").innerText =
+    "Generating preview image";
+
+  setProgress(45);
+
+}, 1200);
+
+setTimeout(() => {
+
+  document.getElementById("analyzingSub").innerText =
+    "Collecting video information";
+
+  setProgress(70);
+
+}, 2200);
+
+setTimeout(async () => {
+
+  try {
+
+    const [meta, thumbnail] =
+      await Promise.all([
+
+        loadVideoMetadata(selectedVideo),
+
+        generateThumbnail(selectedVideo)
+
+      ]);
+
+    document.getElementById("analyzingState").style.display =
+      "none";
+
+    document.getElementById("importCard")
+      .classList.remove("hidden");
+
+    const fileName =
+      path.basename(selectedVideo);
+
+    document.getElementById("videoTitle").innerText =
+      fileName;
+
+    document.getElementById("videoPath").innerText =
+      selectedVideo;
+
+    document.getElementById("videoResolution").innerText =
+      `${meta.width}×${meta.height}`;
+
+    document.getElementById("videoFPS").innerText =
+      `${meta.fps} FPS`
+  .replace(".00", "");
+
+    document.getElementById("videoDuration").innerText =
+      formatDuration(meta.duration);
+
+    document.getElementById("videoSize").innerText =
+      `${(meta.size / (1024 * 1024)).toFixed(1)} MB`;
+
+    document.getElementById("videoFormat").innerText =
+      path.extname(selectedVideo)
+        .replace(".", "")
+        .toUpperCase();
+
+    document.getElementById("videoStatus").innerText =
+      "Video imported successfully";
+
+    document.getElementById("previewImage").src =
+      thumbnail + "?t=" + Date.now();
+
+    setProgress(100);
+    isImporting = false;
+
+    setTimeout(() => {
+
+  setProgress(0);
+
+  document.getElementById("statusText").innerText =
+    "Select a process to continue";
+
+}, 1200);
+
+document.getElementById("emptyImport").style.display =
+  "none";
+
+  } catch (err) {
+
+
+    isImporting = false;
+    console.error(err);
+
+    document.getElementById("consoleBox").innerText =
+      err.message;
+  }
+
+}, 3200);
+
+}
+});
+
+  // DRAG OVER
+
+  dropZone.addEventListener("dragover", (e) => {
+
+    e.preventDefault();
+
+    dropZone.classList.add("dragover");
+  });
+
+  // DRAG LEAVE
+
+  dropZone.addEventListener("dragleave", () => {
+
+    dropZone.classList.remove("dragover");
+  });
+
+  // DROP
+
+dropZone.addEventListener("drop", (e) => {
+
+  e.preventDefault();
+
+  dropZone.classList.remove("dragover");
+
+  const item =
+    e.dataTransfer.items[0];
+
+ const consoleBox =
+  document.getElementById("consoleBox");
+
+
+
+  if (!item) {
+
+    consoleBox.innerText =
+      "No item detected.";
+
+    return;
+  }
+
+  const entry =
+    item.webkitGetAsEntry();
+
+  console.log(entry);
+
+  if (!entry) {
+
+    consoleBox.innerText =
+      "Entry not found.";
+
+    return;
+  }
+
+  const file =
+    e.dataTransfer.files[0];
+
+  if (!file) return;
+
+importVideo(file.path);
+
+});
+
+
+document.getElementById("subtitleBtn").addEventListener("click", async () => {
+
+  if (!selectedVideo) {
+
+    alert("Please import a video first.");
+    return;
+  }
+
+  const saveResult = await dialog.showSaveDialog({
+
+    title: "Save Subtitle File",
+
+    defaultPath: "subtitles.srt",
+
+    filters: [
+      {
+        name: "Subtitle File",
+        extensions: ["srt"]
+      }
+    ]
+  });
+
+  if (saveResult.canceled) {
+    return;
+  }
+
+  const subtitlePath =
+    saveResult.filePath;
+
+  setProgress(10);
+
+  document.getElementById("statusText").innerText =
+    "Generating subtitles...";
+
+  const consoleBox =
+    document.getElementById("consoleBox");
+
+
+
+  consoleBox.innerText = "";
+
+  const scriptPath = path.join(
+  basePath,
+  "scripts",
+    "transcribe.py"
+  );
+
+const command =
+  `"${pythonPath}" "${scriptPath}" "${selectedVideo}" "${subtitlePath}"`;
+
+  const processExec =
+    exec(command);
+
+processExec.stdout.on("data", (data) => {
+
+  const text =
+    data.toString();
+
+  const lines =
+    text.trim().split("\\n");
+
+  ipcRenderer.send(
+    "debug-log",
+    text
+  );
+
+  consoleBox.innerText =
+    lines[lines.length - 1];
+
+    let current =
+      parseInt(progressPercent.innerText);
+
+    if (current < 90) {
+
+      setProgress(current + 1);
+    }
+  });
+
+  processExec.stderr.on("data", (data) => {
+
+  const errorText =
+    data.toString();
+
+    ipcRenderer.send(
+  "debug-error",
+  data.toString()
+);
+
+  consoleBox.innerText +=
+    "\\nERROR:\\n" + errorText;
+
+  console.error(errorText);
+});
+
+  processExec.on("close", (code) => {
+
+    if (code === 0) {
+
+      setProgress(100);
+
+      document.getElementById("statusText").innerText =
+        "Subtitle generation complete!";
+
+      consoleBox.innerText =
+        "Saved subtitles:\\n" + subtitlePath;
+
+    } else {
+
+      document.getElementById("statusText").innerText =
+        "Subtitle generation failed.";
+
+      consoleBox.innerText =
+        "Exit code: " + code;
+    }
+
+  });
+
+});
+
+document.getElementById("wordTimingBtn").addEventListener("click", async () => {
+
+  if (!selectedVideo) {
+
+    alert("Please import a video first.");
+    return;
+  }
+
+  const saveResult = await dialog.showSaveDialog({
+
+    title: "Save Word Timing File",
+
+    defaultPath: "word_timing.json",
+
+    filters: [
+      {
+        name: "JSON File",
+        extensions: ["json"]
+      }
+    ]
+  });
+
+  if (saveResult.canceled) {
+    return;
+  }
+
+  const jsonPath =
+    saveResult.filePath;
+
+  setProgress(10);
+
+  document.getElementById("statusText").innerText =
+    "Generating word timing...";
+
+  const consoleBox =
+    document.getElementById("consoleBox");
+
+
+
+  consoleBox.innerText = "";
+
+  const scriptPath = path.join(
+  basePath,
+  "scripts",
+    "word_timing.py"
+  );
+
+const command =
+  `"${pythonPath}" "${scriptPath}" "${selectedVideo}" "${jsonPath}"`;
+
+  const processExec =
+    exec(command);
+
+  processExec.stdout.on("data", (data) => {
+
+    const text =
+  data.toString();
+
+ipcRenderer.send(
+  "debug-log",
+  text
+);
+
+    const lines =
+      data.toString().trim().split("\\n");
+
+    consoleBox.innerText =
+      lines[lines.length - 1];
+
+    let current =
+      parseInt(progressPercent.innerText);
+
+    if (current < 90) {
+
+      setProgress(current + 1);
+    }
+  });
+
+  processExec.stderr.on("data", (data) => {
+
+    consoleBox.innerText =
+      data.toString();
+
+      ipcRenderer.send(
+  "debug-error",
+  data.toString()
+);
+
+    console.error(data.toString());
+  });
+
+  processExec.on("close", (code) => {
+
+    if (code === 0) {
+
+      setProgress(100);
+
+      document.getElementById("statusText").innerText =
+        "Word timing export complete!";
+
+      consoleBox.innerText =
+        "Saved JSON:\\n" + jsonPath;
+
+    } else {
+
+      document.getElementById("statusText").innerText =
+        "Word timing export failed.";
+
+      consoleBox.innerText =
+        "Exit code: " + code;
+    }
+
+  });
+
+});
+
+document.getElementById("cutBtn").addEventListener("click", async () => {
+
+  if (!selectedVideo) {
+
+    alert("Please import a video first.");
+    return;
+  }
+
+  setProgress(1);
+
+  document.getElementById("statusText").innerText =
+    "Running auto cut...";
+
+  const consoleBox =
+    document.getElementById("consoleBox");
+
+
+
+  consoleBox.innerText = "";
+
+const outputPath =
+  selectedVideo.replace(
+    /\.([a-zA-Z0-9]+)$/,
+    "_AUTO_CUT.mp4"
+  );
+
+const command =
+  `"${autoEditorPath}" "${selectedVideo}" ` +
+  `--margin 0.2sec ` +
+  `-o "${outputPath}"`;
+
+  const processExec =
+    exec(command);
+
+  processExec.stdout.on("data", (data) => {
+
+  const text =
+    data.toString();
+
+  const consoleBox =
+    document.getElementById("consoleBox");
+
+  consoleBox.innerText =
+    text;
+
+  document.getElementById("statusText").innerText =
+    text.trim();
+
+  // MATCH DECIMAL PERCENTAGES
+
+  const matches =
+  [...text.matchAll(/(\d+(\.\d+)?)%/g)];
+
+if (matches.length > 0) {
+
+  const lastMatch =
+    matches[matches.length - 1];
+
+  const percent =
+    parseFloat(lastMatch[1]);
+
+  setProgress(percent);
+}
+});
+  processExec.stderr.on("data", (data) => {
+
+  const errorText =
+    data.toString();
+
+    ipcRenderer.send(
+  "debug-error",
+  data.toString()
+);
+
+  consoleBox.innerText +=
+    "\n" + errorText;
+
+  console.error(errorText);
+});
+
+  processExec.on("close", (code) => {
+
+    if (code === 0) {
+
+      setProgress(100);
+
+      document.getElementById("statusText").innerText =
+        "Auto cut complete!";
+
+      consoleBox.innerText =
+        "Saved video:\\n" + outputPath;
+
+    } else {
+
+      document.getElementById("statusText").innerText =
+        "Auto cut failed.";
+
+      consoleBox.innerText =
+        "Exit code: " + code;
+    }
+
+  });
+
+});
+
+document.getElementById("premiereBtn").addEventListener("click", async () => {
+
+  if (!selectedVideo) {
+
+    alert("Please import a video first.");
+    return;
+  }
+
+  const saveResult = await dialog.showSaveDialog({
+
+    title: "Save Premiere XML",
+
+    defaultPath: "edited_sequence.xml",
+
+    filters: [
+      {
+        name: "Premiere XML",
+        extensions: ["xml"]
+      }
+    ]
+  });
+
+  if (saveResult.canceled) {
+    return;
+  }
+
+  const xmlPath =
+    saveResult.filePath;
+
+  setProgress(10);
+
+  document.getElementById("statusText").innerText =
+    "Generating Premiere XML...";
+
+  const consoleBox =
+    document.getElementById("consoleBox");
+
+
+
+  consoleBox.innerText = "";
+
+const command =
+  `"${autoEditorPath}" "${selectedVideo}" ` +
+  `--edit audio ` +
+  `--margin 0.04sec ` +
+  `--when-silent cut ` +
+  `--when-normal nil ` +
+  `--export premiere ` +
+  `--output "${xmlPath}"`;
+
+  const processExec =
+    exec(command);
+
+  processExec.stdout.on("data", (data) => {
+
+  const text =
+    data.toString();
+
+  ipcRenderer.send(
+  "debug-log",
+  text
+);
+
+  const consoleBox =
+    document.getElementById("consoleBox");
+
+  consoleBox.innerText =
+  text;
+
+document.getElementById("statusText").innerText =
+  text.trim();
+
+  // FIND PERCENTAGE
+
+  const match =
+    text.match(/(\d+)%/);
+
+  if (match) {
+
+    const percent =
+      parseInt(match[1]);
+
+    setProgress(percent);
+  }
+});
+
+  processExec.stderr.on("data", (data) => {
+
+    consoleBox.innerText =
+      data.toString();
+
+      ipcRenderer.send(
+  "debug-error",
+  data.toString()
+);
+
+    console.error(data.toString());
+  });
+
+  processExec.on("close", (code) => {
+
+    if (code === 0) {
+
+      setProgress(100);
+
+      document.getElementById("statusText").innerText =
+        "Premiere XML export complete!";
+
+      consoleBox.innerText =
+        "Saved XML:\\n" + xmlPath;
+
+    } else {
+
+      document.getElementById("statusText").innerText =
+        "Premiere XML export failed.";
+
+      consoleBox.innerText +=
+  "\\n\\nProcess exited with code: " + code;
+    }
+
+  });
+
+});
+
+const changeBtn =
+  document.getElementById("changeFileBtn");
+
+if (changeBtn) {
+
+  changeBtn.addEventListener("click", async () => {
+
+    if (isImporting) return;
+
+    document.getElementById("importBtn").click();
+
+  });
+
+}
+
+const cursorGlow =
+  document.getElementById("cursorGlow");
+
+document.addEventListener("mousemove", (e) => {
+
+  cursorGlow.style.left =
+    e.clientX + "px";
+
+  cursorGlow.style.top =
+    e.clientY + "px";
+
+});
+
+
+} catch (err) {
+
+  const consoleBox =
+    document.getElementById("consoleBox");
+
+  if (consoleBox) {
+
+    consoleBox.innerText =
+      "SCRIPT ERROR:\\n\\n" + err.message;
+  }
+
+  console.error(err);
+}
+
+
+</script>
+
+
+
+
+</body>
+</html>

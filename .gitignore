@@ -1,0 +1,61 @@
+```gitignore
+# Node
+node_modules/
+
+# Electron Build
+dist/
+build/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+
+# Temp exports
+*.xml
+*.srt
+*.json
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# HuggingFace cache
+.cache/
+
+# Generated files
+output/
+exports/
+
+# Premiere temp
+*.prproj
+```
+
+```gitignore id="7jlwm1"
+# AI Models
+models/
+
+# FFmpeg
+ffmpeg/
+
+# Embedded Python
+python/
+
+# Test videos
+*.mp4
+
+# Build output
+dist/
+build/
+
+# Node modules
+node_modules/
+
+# Cache
+.cache/
+```
